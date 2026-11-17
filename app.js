@@ -271,7 +271,7 @@
     if (typeof lightbox.close === "function") lightbox.close();
     else lightbox.removeAttribute("open");
     document.body.classList.remove("is-locked");
-    lightboxImg.src = "";
+    lightboxImg.removeAttribute("src");
   }
 
   if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
