@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Label Meja &amp; Kartu Tamu — Adinda &amp; Bima</title>
+<meta name="description" content="Contoh table card dan place card untuk resepsi pernikahan. Bisa diisi, dipratinjau, dan dicetak." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #F3EFE7;
+    --paper: #FBF8F1;
+    --ink: #1D1B17;
+    --muted: #625C52;
+    --line: rgba(29,27,23,.16);
+    --accent: #3E4A3A;
+    --accent-2: #A9825A;
+    --display: "Instrument Serif", Georgia, serif;
+    --body: "Inter", system-ui, sans-serif;
+  }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--body); font-size: 15px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1080px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 48px; }
+  .back {
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    text-decoration: none; color: var(--muted);
+    border-bottom: 1px solid var(--line); padding-bottom: 4px;
+  }
+  .back:hover { color: var(--ink); border-color: var(--ink); }
+  .mark { font-family: var(--display); font-size: 20px; }
+
+  h1 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(34px, 5.4vw, 56px); line-height: 1.05;
+    letter-spacing: -.02em; margin: 0 0 14px; max-width: 16ch;
+  }
+  .lede { color: var(--muted); font-weight: 300; max-width: 62ch; margin: 0; }
+
+  .layout {
+    display: grid; grid-template-columns: 320px 1fr;
+    gap: clamp(28px, 5vw, 64px); align-items: start;
+    margin-top: 48px;
+  }
+
+  .controls {
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 24px; position: sticky; top: 24px;
+  }
+  .controls h2 {
+    font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin: 0 0 22px;
+  }
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block; font-size: 9px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .field input, .field select {
+    width: 100%; background: transparent; border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 9px 0 11px; font-size: 14px; font-weight: 300;
+    border-radius: 0; color: var(--ink);
+  }
+  .field input:focus, .field select:focus { outline: none; border-bottom-color: var(--accent); }
+  .field select { appearance: none; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    width: 100%; padding: 14px 20px;
+    background: var(--accent); color: var(--paper);
+    border: 1px solid var(--accent); border-radius: 0;
+    font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+    cursor: pointer; transition: background .25s;
+  }
+  .btn:hover { background: #2F3A2C; }
+  .hint {
+    font-size: 11px; color: var(--muted); line-height: 1.65;
+    margin: 16px 0 0; padding-top: 16px; border-top: 1px solid var(--line);
+  }
+  .hint strong { color: var(--ink); font-weight: 500; }
+
+  .stage { min-width: 0; }
+  .stage-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 14px;
+  }
+  .stage-head h2 {
+    font-family: var(--display); font-weight: 400; font-size: 24px; margin: 0;
+  }
+  .stage-head span { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+
+  .card-wrap { margin-bottom: 44px; }
+  .card-caption {
+    font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin: 12px 0 0;
+  }
+
+  /* ---------- table card 15 x 10 cm ---------- */
+  .table-card {
+    width: min(100%, 560px);
+    aspect-ratio: 3 / 2;
+    background: #FBF8F1;
+    color: #1D1B17;
+    container-type: inline-size;
+    position: relative;
+    overflow: hidden;
+    padding: 7cqw;
+    box-shadow: 0 24px 60px -34px rgba(29,27,23,.5);
+  }
+  .table-card::before {
+    content: ""; position: absolute; inset: 3.2cqw;
+    border: 1px solid rgba(29,27,23,.28);
+  }
+  .table-card::after {
+    content: ""; position: absolute; inset: 4.1cqw;
+    border: 1px solid rgba(169,130,90,.35);
+  }
+  .tc-inner {
+    position: relative; z-index: 1; height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 3.4cqw;
+  }
+  .tc-eyebrow {
+    font-size: 2.4cqw; letter-spacing: .3em; text-transform: uppercase;
+    color: #A9825A; margin: 0;
+  }
+  .tc-label {
+    font-size: 2.8cqw; letter-spacing: .34em; text-transform: uppercase;
+    color: #625C52; margin: 4.2cqw 0 0;
+  }
+  .tc-number {
+    font-family: var(--display); font-size: 23cqw; line-height: .82;
+    letter-spacing: -.02em; margin: 1.4cqw 0 0;
+  }
+  .tc-guest {
+    font-family: var(--display); font-style: italic;
+    font-size: 4.2cqw; line-height: 1.2; margin: auto 0 0;
+    max-width: 90%; overflow-wrap: anywhere;
+  }
+  .tc-footer {
+    font-size: 2.2cqw; letter-spacing: .2em; text-transform: uppercase;
+    color: #625C52; margin: 2.6cqw 0 0;
+  }
+
+  /* ---------- place card 9 x 5 cm ---------- */
+  .place-card {
+    width: min(100%, 360px);
+    aspect-ratio: 9 / 5;
+    background: #232B22;
+    color: #F3EFE7;
+    container-type: inline-size;
+    position: relative;
+    overflow: hidden;
+    padding: 5cqw 6cqw;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    box-shadow: 0 24px 60px -34px rgba(29,27,23,.5);
+  }
+  .place-card::before {
+    content: ""; position: absolute; inset: 3.4cqw;
+    border: 1px solid rgba(243,239,231,.28);
+  }
+  .pc-eyebrow {
+    position: relative; font-size: 3cqw; letter-spacing: .28em;
+    text-transform: uppercase; color: rgba(243,239,231,.6); margin: 0;
+  }
+  .pc-name {
+    position: relative; font-family: var(--display); font-style: italic;
+    font-size: 8.4cqw; line-height: 1.15; margin: 2.4cqw 0 0;
+    max-width: 92%; overflow-wrap: anywhere;
+  }
+  .pc-table {
+    position: relative; font-size: 2.8cqw; letter-spacing: .24em;
+    text-transform: uppercase; color: #D8BA8A; margin: 2.2cqw 0 0;
+  }
+  .fold {
+    position: absolute; left: 0; right: 0; top: 50%; z-index: 2;
+    border-top: 1px dashed rgba(243,239,231,.3);
+  }
+  .fold span {
+    position: absolute; right: 4px; top: -8px;
+    font-size: 7px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(243,239,231,.45);
+  }
+
+  /* ---------- theme: forest ---------- */
+  body.theme-forest .table-card { background: #232B22; color: #F3EFE7; }
+  body.theme-forest .table-card::before { border-color: rgba(243,239,231,.3); }
+  body.theme-forest .table-card::after { border-color: rgba(216,186,138,.35); }
+  body.theme-forest .tc-eyebrow,
+  body.theme-forest .pc-table { color: #D8BA8A; }
+  body.theme-forest .tc-label,
+  body.theme-forest .tc-footer { color: rgba(243,239,231,.6); }
+  body.theme-forest .place-card { background: #FBF8F1; color: #1D1B17; }
+  body.theme-forest .place-card::before { border-color: rgba(29,27,23,.24); }
+  body.theme-forest .pc-eyebrow { color: #625C52; }
+  body.theme-forest .pc-table { color: #A9825A; }
+  body.theme-forest .fold { border-color: rgba(29,27,23,.25); }
+  body.theme-forest .fold span { color: rgba(29,27,23,.4); }
+
+  .note-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px; margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .note-grid h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 6px; }
+  .note-grid p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.6; }
+
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+    .controls { position: static; }
+  }
+
+  /* ---------- print ---------- */
+  @page { size: A4; margin: 16mm; }
+  @media print {
+    body { background: #fff; }
+    .page { max-width: none; padding: 0; }
+    .topbar, h1, .lede, .layout > .controls, .stage-head, .card-caption, .note-grid { display: none !important; }
+    .layout { display: block; margin: 0; }
+    .stage { display: block; }
+    .card-wrap { margin: 0 0 18mm; }
+    .table-card {
+      width: 150mm; height: 100mm; max-width: none;
+      box-shadow: none; break-inside: avoid;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .place-card {
+      width: 90mm; height: 50mm; max-width: none;
+      box-shadow: none; break-inside: avoid;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+    .fold { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <a class="back" href="index.html">&larr; Kembali ke undangan</a>
+    <span class="mark">A &amp; B</span>
+  </div>
+
+  <h1>Label meja &amp; kartu tamu.</h1>
+  <p class="lede">
+    Tiga istilah yang sering tertukar. <strong>Table card</strong> = nomor meja yang diletakkan di atas meja.
+    <strong>Place card</strong> = kartu nama tamu di kursinya. <strong>Escort card</strong> = kartu pengantar
+    yang menunjukkan tamu duduk di meja mana. Isi kolom di bawah, lalu cetak.
+  </p>
+
+  <div class="layout">
+
+    <aside class="controls" aria-label="Pengaturan kartu">
+      <h2>Isi Kartu</h2>
+
+      <div class="field">
+        <label for="guestInput">Nama tamu</label>
+        <input id="guestInput" type="text" value="Bapak Sujono &amp; Keluarga" maxlength="60" />
+      </div>
+      <div class="field">
+        <label for="tableInput">Nomor meja</label>
+        <input id="tableInput" type="text" value="07" maxlength="3" inputmode="numeric" />
+      </div>
+      <div class="field">
+        <label for="coupleInput">Nama pasangan</label>
+        <input id="coupleInput" type="text" value="Adinda &amp; Bima" maxlength="40" />
+      </div>
+      <div class="field">
+        <label for="dateInput">Tanggal</label>
+        <input id="dateInput" type="text" value="12 Juni 2027" maxlength="30" />
+      </div>
+      <div class="field">
+        <label for="themeInput">Warna</label>
+        <select id="themeInput">
+          <option value="cream">Krem &amp; hijau</option>
+          <option value="forest">Hijau &amp; krem</option>
+        </select>
+      </div>
+
+      <button class="btn" type="button" id="printBtn">Cetak / Simpan PDF</button>
+
+      <p class="hint">
+        <strong>Ukuran cetak:</strong> table card 15 &times; 10 cm, place card 9 &times; 5 cm (lipat).
+        Gunakan kertas 230&ndash;300 gsm. Di dialog cetak, pilih <em>A4</em> dan matikan
+        <em>headers and footers</em>.
+      </p>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-head">
+        <h2>Pratinjau</h2>
+        <span>Skala mengikuti ukuran cetak</span>
+      </div>
+
+      <div class="card-wrap">
+        <div class="table-card" id="tableCard">
+          <div class="tc-inner">
+            <p class="tc-eyebrow">The Wedding Of</p>
+            <p class="tc-label">Meja</p>
+            <p class="tc-number" id="cardNumber">07</p>
+            <p class="tc-guest" id="cardGuest">Bapak Sujono &amp; Keluarga</p>
+            <p class="tc-footer" id="cardFooter">Adinda &amp; Bima &middot; 12 Juni 2027</p>
+          </div>
+        </div>
+        <p class="card-caption">Table card &mdash; 15 &times; 10 cm, diletakkan di atas meja</p>
+      </div>
+
+      <div class="card-wrap">
+        <div class="place-card">
+          <p class="pc-eyebrow" id="pcCouple">Adinda &amp; Bima</p>
+          <p class="pc-name" id="pcGuest">Bapak Sujono</p>
+          <p class="pc-table" id="pcTable">Meja 07</p>
+        </div>
+        <p class="card-caption">Place card &mdash; 9 &times; 5 cm, di kursi atau dilipat jadi tent card</p>
+      </div>
+
+      <div class="note-grid">
+        <div>
+          <h3>Table card</h3>
+          <p>Nomor meja di atas meja. Cukup angka besar dan nama pasangan. Tanpa nama tamu.</p>
+        </div>
+        <div>
+          <h3>Place card</h3>
+          <p>Nama tamu di kursinya. Berguna saat seating sudah ditentukan per orang.</p>
+        </div>
+        <div>
+          <h3>Escort card</h3>
+          <p>Kartu pengantar di meja penerimaan: &ldquo;Bapak Sujono &mdash; Meja 07&rdquo;.</p>
+        </div>
+        <div>
+          <h3>Kapan perlu?</h3>
+          <p>Jika tamu lebih dari 80 atau ada seating per orang. Untuk acara intim, table card saja cukup.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const guest = document.getElementById("guestInput");
+  const table = document.getElementById("tableInput");
+  const couple = document.getElementById("coupleInput");
+  const date = document.getElementById("dateInput");
+  const theme = document.getElementById("themeInput");
+
+  const cardNumber = document.getElementById("cardNumber");
+  const cardGuest = document.getElementById("cardGuest");
+  const cardFooter = document.getElementById("cardFooter");
+  const pcCouple = document.getElementById("pcCouple");
+  const pcGuest = document.getElementById("pcGuest");
+  const pcTable = document.getElementById("pcTable");
+
+  function render() {
+    const tableValue = (table.value || "—").trim();
+    const guestValue = (guest.value || "Tamu Undangan").trim();
+    const coupleValue = (couple.value || "Adinda & Bima").trim();
+    const dateValue = (date.value || "12 Juni 2027").trim();
+
+    cardNumber.textContent = tableValue;
+    cardGuest.textContent = guestValue;
+    cardFooter.textContent = coupleValue + " · " + dateValue;
+    pcCouple.textContent = coupleValue;
+    pcGuest.textContent = guestValue;
+    pcTable.textContent = "Meja " + tableValue;
+
+    document.body.classList.toggle("theme-forest", theme.value === "forest");
+  }
+
+  [guest, table, couple, date, theme].forEach(function (el) {
+    el.addEventListener("input", render);
+    el.addEventListener("change", render);
+  });
+
+  document.getElementById("printBtn").addEventListener("click", function () {
+    window.print();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

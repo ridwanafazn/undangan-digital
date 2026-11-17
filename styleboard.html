@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Styleboard — Undangan Pernikahan Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600&family=Caveat:wght@500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Fredoka:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=Karla:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&family=Mea+Culpa&family=Nunito:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --page: #ece9e3;
+    --paper: #fbfaf7;
+    --ink: #171614;
+    --muted: #6f6a61;
+    --line: rgba(23,22,20,.12);
+  }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #f7f4ee 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, #f1ede5 0%, transparent 55%),
+      var(--page);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .board { max-width: 1440px; margin: 0 auto; padding: 72px 24px 96px; }
+
+  /* ---------- header ---------- */
+  header.top { max-width: 860px; margin-bottom: 56px; }
+  .kicker {
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 18px;
+  }
+  h1.title {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-weight: 400; font-size: clamp(40px, 7vw, 76px);
+    line-height: 1.02; letter-spacing: -.015em; margin: 0 0 18px;
+  }
+  h1.title em { font-style: italic; }
+  .lede { font-size: 16px; color: #4b4740; max-width: 56ch; margin: 0; }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 28px;
+    font-size: 12px; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #a8865b; display: inline-block; }
+
+  /* ---------- grid ---------- */
+  .grid {
+    display: grid; gap: 26px;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+  }
+  @media (hover: hover) {
+    .card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px rgba(23,22,20,.35); }
+  }
+
+  /* ---------- preview (mini cover) ---------- */
+  .preview {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 34px 26px;
+    overflow: hidden;
+    background: var(--p-bg);
+    color: var(--p-ink);
+    isolation: isolate;
+  }
+  .preview > * { position: relative; z-index: 2; }
+  .p-eyebrow {
+    font-family: var(--p-body, "Inter", sans-serif);
+    font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--p-accent); margin: 0 0 18px;
+  }
+  .p-names {
+    font-family: var(--p-display);
+    font-weight: var(--p-weight, 400);
+    font-size: var(--p-size, clamp(30px, 5.4vw, 44px));
+    line-height: .96; letter-spacing: var(--p-tracking, -.01em);
+    margin: 0; color: var(--p-ink);
+    text-transform: var(--p-transform, none);
+  }
+  .p-names .amp {
+    display: block;
+    font-family: var(--p-script, var(--p-display));
+    font-size: .62em; line-height: 1.2;
+    color: var(--p-accent);
+    margin: 4px 0;
+  }
+  .p-date {
+    font-family: var(--p-body, "Inter", sans-serif);
+    font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--p-muted, var(--p-ink)); margin: 22px 0 0;
+  }
+  .p-place {
+    font-family: var(--p-body, "Inter", sans-serif);
+    font-size: 10px; letter-spacing: .12em; color: var(--p-muted, var(--p-ink));
+    margin: 6px 0 0;
+  }
+  .p-cta {
+    margin-top: 26px;
+    font-family: var(--p-body, "Inter", sans-serif);
+    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+    padding: 9px 18px; border: 1px solid var(--p-accent);
+    color: var(--p-accent); border-radius: var(--p-radius, 0);
+  }
+  .frame {
+    position: absolute; inset: 14px; border: 1px solid var(--p-line, rgba(0,0,0,.14));
+    border-radius: var(--p-radius, 0); z-index: 1; pointer-events: none;
+  }
+  .grain::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    opacity: .5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.14'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+  .wash::before {
+    content: ""; position: absolute; inset: -20%; z-index: 0;
+    background:
+      radial-gradient(circle at 20% 15%, var(--p-wash1, transparent), transparent 45%),
+      radial-gradient(circle at 80% 85%, var(--p-wash2, transparent), transparent 40%);
+  }
+
+  /* ---------- meta ---------- */
+  .meta { padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .meta-head { display: flex; align-items: baseline; gap: 10px; }
+  .num {
+    font-size: 10px; letter-spacing: .14em; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .meta h3 {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-weight: 400; font-size: 25px; line-height: 1.1; margin: 0;
+  }
+  .desc { font-size: 13px; color: #5a554d; margin: 0; line-height: 1.55; }
+  .swatches { display: flex; gap: 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .sw { flex: 1; height: 30px; position: relative; }
+  .sw::after {
+    content: attr(data-hex); position: absolute; inset: auto 0 0 0;
+    font-size: 7px; text-align: center; padding: 2px 0;
+    color: rgba(255,255,255,.9); background: rgba(0,0,0,.25);
+    letter-spacing: .02em;
+  }
+  .sw.light::after { color: rgba(0,0,0,.65); background: rgba(255,255,255,.55); }
+  .specs { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+  .specs div { min-width: 0; }
+  .specs dt {
+    font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 3px;
+  }
+  .specs dd { margin: 0; font-size: 11.5px; line-height: 1.4; color: #3e3a34; }
+  .risk {
+    font-size: 11.5px; color: #7a4a37; background: #f7ece6;
+    border: 1px solid #eed9cf; border-radius: 8px; padding: 8px 10px; line-height: 1.4;
+  }
+
+  /* ---------- theme 01 luxury ---------- */
+  .t-luxury {
+    --p-bg: #f7f1e6; --p-ink: #2b2119; --p-accent: #a8865b; --p-muted: #8a7961;
+    --p-display: "Cormorant Garamond", Georgia, serif;
+    --p-script: "Mea Culpa", cursive;
+    --p-body: "Inter", sans-serif;
+    --p-weight: 400; --p-size: clamp(34px, 5.6vw, 48px); --p-tracking: .01em;
+    --p-line: rgba(168,134,91,.35);
+    --p-wash1: rgba(217,195,160,.55); --p-wash2: rgba(201,166,160,.35);
+    --p-radius: 0px;
+  }
+  .t-luxury .p-names { text-transform: none; }
+
+  /* ---------- theme 02 botanical ---------- */
+  .t-botanical {
+    --p-bg: #faf6ec; --p-ink: #2f3327; --p-accent: #55603f; --p-muted: #6b7160;
+    --p-display: "Lora", Georgia, serif;
+    --p-script: "Caveat", cursive;
+    --p-body: "Karla", sans-serif;
+    --p-size: clamp(30px, 5vw, 42px);
+    --p-line: rgba(85,96,63,.25);
+    --p-wash1: rgba(138,154,123,.30); --p-wash2: rgba(192,138,106,.22);
+    --p-radius: 0px;
+  }
+  .t-botanical .p-names { font-style: italic; }
+  .leaf {
+    position: absolute; width: 150px; height: 150px; z-index: 1; opacity: .55;
+    border-radius: 60% 0 60% 0; border: 1px solid rgba(85,96,63,.35);
+  }
+  .leaf.a { top: -46px; left: -46px; transform: rotate(18deg); }
+  .leaf.b { bottom: -52px; right: -52px; transform: rotate(-14deg); }
+
+  /* ---------- theme 03 minimal ---------- */
+  .t-minimal {
+    --p-bg: #f4f1ec; --p-ink: #1f1f1d; --p-accent: #b4552d; --p-muted: #8c877e;
+    --p-display: "Instrument Serif", Georgia, serif;
+    --p-script: "Instrument Serif", Georgia, serif;
+    --p-body: "Inter", sans-serif;
+    --p-size: clamp(34px, 5.8vw, 50px); --p-tracking: -.02em;
+    --p-line: rgba(31,31,29,.16);
+    --p-radius: 0px;
+  }
+  .t-minimal .p-eyebrow { color: var(--p-muted); }
+  .t-minimal .amp { font-style: italic; font-size: .5em; margin: 2px 0; }
+  .t-minimal .frame { inset: 18px; border-color: rgba(31,31,29,.14); }
+
+  /* ---------- theme 04 vintage ---------- */
+  .t-vintage {
+    --p-bg: #f3e9d2; --p-ink: #4a3427; --p-accent: #6e2b2b; --p-muted: #8a7157;
+    --p-display: "Bodoni Moda", Georgia, serif;
+    --p-script: "Bodoni Moda", Georgia, serif;
+    --p-body: "Special Elite", monospace;
+    --p-size: clamp(30px, 5vw, 42px); --p-tracking: .02em;
+    --p-line: rgba(110,43,43,.35);
+    --p-radius: 2px;
+  }
+  .t-vintage .p-eyebrow { font-family: "Special Elite", monospace; letter-spacing: .12em; }
+  .t-vintage .p-names { text-transform: uppercase; letter-spacing: .04em; }
+  .t-vintage .amp { font-size: .5em; font-style: italic; }
+  .postmark {
+    position: absolute; top: 26px; right: 24px; width: 62px; height: 62px;
+    border: 1px solid rgba(110,43,43,.45); border-radius: 50%;
+    display: grid; place-items: center; text-align: center;
+    font-family: "Special Elite", monospace; font-size: 6px; line-height: 1.3;
+    color: rgba(110,43,43,.7); transform: rotate(12deg); z-index: 2;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+  .t-vintage .preview { background-image: repeating-linear-gradient(0deg, transparent 0 26px, rgba(110,43,43,.05) 26px 27px); }
+
+  /* ---------- theme 05 adat ---------- */
+  .t-adat {
+    --p-bg: #3a1218; --p-ink: #f3e2c0; --p-accent: #c9a227; --p-muted: #cbb68f;
+    --p-display: "Playfair Display", Georgia, serif;
+    --p-script: "Mea Culpa", cursive;
+    --p-body: "Inter", sans-serif;
+    --p-size: clamp(30px, 5vw, 42px); --p-tracking: .02em;
+    --p-line: rgba(201,162,39,.55);
+    --p-radius: 0px;
+  }
+  .t-adat .preview { background-image:
+      repeating-linear-gradient(45deg, rgba(201,162,39,.07) 0 2px, transparent 2px 10px),
+      repeating-linear-gradient(-45deg, rgba(201,162,39,.05) 0 2px, transparent 2px 10px); }
+  .t-adat .p-names { text-transform: uppercase; letter-spacing: .06em; }
+  .t-adat .amp { color: #e3c46a; }
+  .t-adat .frame { inset: 12px; border-width: 1px; box-shadow: inset 0 0 0 4px rgba(58,18,24,1), inset 0 0 0 5px rgba(201,162,39,.35); }
+
+  /* ---------- theme 06 game ---------- */
+  .t-game {
+    --p-bg: #dff0ea; --p-ink: #1e3a34; --p-accent: #e2725b; --p-muted: #4c6b63;
+    --p-display: "Fredoka", system-ui, sans-serif;
+    --p-script: "Fredoka", system-ui, sans-serif;
+    --p-body: "Nunito", sans-serif;
+    --p-size: clamp(28px, 4.8vw, 38px); --p-tracking: 0;
+    --p-line: rgba(30,58,52,.18);
+    --p-radius: 12px;
+  }
+  .t-game .preview { background-image:
+      linear-gradient(rgba(30,58,52,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,58,52,.06) 1px, transparent 1px);
+    background-size: 22px 22px; }
+  .t-game .p-names { font-weight: 500; }
+  .t-game .amp { font-size: .5em; }
+  .t-game .p-cta { background: #1e3a34; color: #dff0ea; border-color: #1e3a34; }
+
+  /* ---------- theme 07 cinematic ---------- */
+  .t-cinematic {
+    --p-bg: #0e0e10; --p-ink: #f4f1ea; --p-accent: #c8a97e; --p-muted: #8c877e;
+    --p-display: "Archivo", system-ui, sans-serif;
+    --p-script: "Cormorant Garamond", Georgia, serif;
+    --p-body: "Inter", sans-serif;
+    --p-size: clamp(24px, 4.4vw, 34px); --p-tracking: .12em;
+    --p-line: rgba(244,241,234,.18);
+    --p-radius: 0px;
+  }
+  .t-cinematic .p-names { text-transform: uppercase; font-weight: 600; }
+  .t-cinematic .amp { font-family: "Cormorant Garamond", serif; text-transform: none; letter-spacing: 0; font-style: italic; font-size: .9em; }
+  .t-cinematic .p-eyebrow { color: var(--p-accent); }
+  .t-cinematic .preview::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(200,169,126,.16), transparent 55%),
+      linear-gradient(180deg, rgba(0,0,0,.5) 0 8%, transparent 8% 92%, rgba(0,0,0,.5) 92%);
+  }
+  .t-cinematic .frame { border-color: rgba(244,241,234,.10); }
+
+  /* ---------- theme 08 magazine ---------- */
+  .t-magazine {
+    --p-bg: #f7f5f2; --p-ink: #111111; --p-accent: #c24b2a; --p-muted: #6b6b6b;
+    --p-display: "Anton", Impact, sans-serif;
+    --p-script: "Source Serif 4", Georgia, serif;
+    --p-body: "Source Serif 4", Georgia, serif;
+    --p-size: clamp(38px, 6.4vw, 58px); --p-tracking: -.02em;
+    --p-line: rgba(17,17,17,.18);
+    --p-radius: 0px;
+  }
+  .t-magazine .preview { align-items: flex-start; text-align: left; padding-left: 30px; }
+  .t-magazine .p-names { text-transform: uppercase; line-height: .86; }
+  .t-magazine .amp { font-family: "Source Serif 4", serif; font-style: italic; font-size: .34em; margin: 6px 0; color: var(--p-accent); }
+  .t-magazine .p-eyebrow { color: var(--p-accent); }
+  .t-magazine .p-date, .t-magazine .p-place, .t-magazine .p-cta { align-self: flex-start; }
+  .t-magazine .frame { display: none; }
+  .t-magazine .issue {
+    position: absolute; top: 22px; right: 24px; z-index: 2;
+    font-family: "Source Serif 4", serif; font-size: 9px; letter-spacing: .12em;
+    color: var(--p-muted);
+  }
+
+  /* ---------- section flow ---------- */
+  .flow { margin-top: 72px; }
+  .flow h2 {
+    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-size: clamp(28px, 4vw, 42px); margin: 0 0 6px; letter-spacing: -.01em;
+  }
+  .flow p.sub { color: var(--muted); font-size: 14px; margin: 0 0 26px; max-width: 60ch; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 8px 13px; border-radius: 999px; font-size: 12px; color: #3e3a34;
+  }
+  .chip b { font-weight: 500; font-size: 9px; color: var(--muted); letter-spacing: .1em; }
+  .chip.opt { border-style: dashed; color: var(--muted); }
+  .chip.core { background: #1f1f1d; color: #f7f5f0; border-color: #1f1f1d; }
+  .chip.core b { color: #b9b2a6; }
+
+  /* ---------- tone ---------- */
+  .tone { margin-top: 64px; }
+  .tone-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .tone-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .tone-card h3 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-size: 22px; margin: 0 0 4px; }
+  .tone-card .tag { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .tone-card blockquote {
+    margin: 16px 0 0; padding-left: 14px; border-left: 2px solid #d8cfc0;
+    font-size: 13.5px; line-height: 1.6; color: #3e3a34; font-style: italic;
+  }
+  .tone-card .by { display: block; margin-top: 10px; font-size: 11px; font-style: normal; color: var(--muted); }
+
+  footer.bot {
+    margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between;
+    font-size: 11.5px; color: var(--muted);
+  }
+  footer.bot a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(111,106,97,.35); }
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="board">
+
+  <header class="top">
+    <p class="kicker">Styleboard · Riset Undangan Digital</p>
+    <h1 class="title">Delapan cara membuat<br><em>satu hari</em> terasa abadi.</h1>
+    <p class="lede">
+      Setiap arketipe adalah paket keputusan: warna, tipografi, ornamen, gerak, audio, dan nada copy.
+      Preview di bawah memakai konten yang sama — pasangan, tanggal, kota — supaya yang terlihat
+      benar-benar perbedaan gaya, bukan perbedaan isi.
+    </p>
+    <div class="legend">
+      <span><i class="dot"></i> Preview cover 4:5</span>
+      <span><i class="dot"></i> Palet 5 warna</span>
+      <span><i class="dot"></i> Font pairing</span>
+      <span><i class="dot"></i> Catatan risiko</span>
+    </div>
+  </header>
+
+  <section class="grid" aria-label="Delapan arketipe gaya undangan">
+
+    <!-- 01 LUXURY -->
+    <article class="card t-luxury">
+      <div class="preview frame-host wash grain">
+        <div class="frame"></div>
+        <p class="p-eyebrow">The Wedding Of</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">01</span><h3>Luxury Editorial</h3></div>
+        <p class="desc">Undangan cetak mahal: kertas tebal, tinta emas, ballroom. Tenang, lapang, dan sangat terkontrol.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#f7f1e6" data-hex="F7F1E6"></span>
+          <span class="sw light" style="background:#d9c3a0" data-hex="D9C3A0"></span>
+          <span class="sw" style="background:#a8865b" data-hex="A8865B"></span>
+          <span class="sw" style="background:#2b2119" data-hex="2B2119"></span>
+          <span class="sw" style="background:#c9a6a0" data-hex="C9A6A0"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Cormorant Garamond</dd></div>
+          <div><dt>Aksen</dt><dd>Mea Culpa</dd></div>
+          <div><dt>Gerak</dt><dd>Fade + scale 1.04, 900–1200 ms</dd></div>
+          <div><dt>Audio</dt><dd>Piano / string</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Hotel, ballroom, pasangan timeless</dd></div>
+          <div><dt>Kepadatan</dt><dd>Sedang</dd></div>
+        </dl>
+        <p class="risk">Risiko: emas di krem gagal kontras; script di bawah 28 px tidak terbaca.</p>
+      </div>
+    </article>
+
+    <!-- 02 BOTANICAL -->
+    <article class="card t-botanical">
+      <div class="preview wash">
+        <span class="leaf a"></span>
+        <span class="leaf b"></span>
+        <p class="p-eyebrow">The Wedding Of</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">02</span><h3>Botanical Garden</h3></div>
+        <p class="desc">Taman, cahaya pagi, botanical illustration. Hangat dan organik tanpa terasa dekoratif berlebihan.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#faf6ec" data-hex="FAF6EC"></span>
+          <span class="sw light" style="background:#e3dacd" data-hex="E3DACD"></span>
+          <span class="sw" style="background:#8a9a7b" data-hex="8A9A7B"></span>
+          <span class="sw" style="background:#55603f" data-hex="55603F"></span>
+          <span class="sw" style="background:#c08a6a" data-hex="C08A6A"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Lora</dd></div>
+          <div><dt>Aksen</dt><dd>Caveat</dd></div>
+          <div><dt>Gerak</dt><dd>Sway lembut, SVG draw-on</dd></div>
+          <div><dt>Audio</dt><dd>Akustik / folk</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Garden party, outdoor, intimate</dd></div>
+          <div><dt>Kepadatan</dt><dd>Sedang</dd></div>
+        </dl>
+        <p class="risk">Risiko: floral berlebihan membuat tampilan generik dan berat.</p>
+      </div>
+    </article>
+
+    <!-- 03 MINIMAL -->
+    <article class="card t-minimal">
+      <div class="preview frame-host">
+        <div class="frame"></div>
+        <p class="p-eyebrow">The Wedding Of</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">03</span><h3>Quiet Minimalist</h3></div>
+        <p class="desc">Galeri seni: ruang kosong, hairline, tipografi sebagai satu-satunya ornamen.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#f4f1ec" data-hex="F4F1EC"></span>
+          <span class="sw light" style="background:#e3dacd" data-hex="E3DACD"></span>
+          <span class="sw" style="background:#8c877e" data-hex="8C877E"></span>
+          <span class="sw" style="background:#b4552d" data-hex="B4552D"></span>
+          <span class="sw" style="background:#1f1f1d" data-hex="1F1F1D"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Instrument Serif</dd></div>
+          <div><dt>Body</dt><dd>Inter</dd></div>
+          <div><dt>Gerak</dt><dd>Opacity + 12 px, 400–600 ms</dd></div>
+          <div><dt>Audio</dt><dd>Opsional / ambient</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Urban, venue arsitektural, intimate</dd></div>
+          <div><dt>Kepadatan</dt><dd>Rendah</dd></div>
+        </dl>
+        <p class="risk">Risiko: terasa dingin; kehangatan harus datang dari copy dan foto.</p>
+      </div>
+    </article>
+
+    <!-- 04 VINTAGE -->
+    <article class="card t-vintage">
+      <div class="preview grain">
+        <div class="postmark">Jakarta<br>28·12<br>2026</div>
+        <p class="p-eyebrow">The Wedding Of</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">04</span><h3>Vintage Postcard</h3></div>
+        <p class="desc">Kartu pos lama, stempel, tinta pudar. Nostalgia yang dijaga tetap rapi oleh grid modern.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#f3e9d2" data-hex="F3E9D2"></span>
+          <span class="sw light" style="background:#e8d8be" data-hex="E8D8BE"></span>
+          <span class="sw" style="background:#c99b3f" data-hex="C99B3F"></span>
+          <span class="sw" style="background:#6e2b2b" data-hex="6E2B2B"></span>
+          <span class="sw" style="background:#3e4a3a" data-hex="3E4A3A"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Bodoni Moda</dd></div>
+          <div><dt>Aksen</dt><dd>Special Elite</dd></div>
+          <div><dt>Gerak</dt><dd>Paper unfold, stamp press</dd></div>
+          <div><dt>Audio</dt><dd>Jazz / swing</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Retro, destinasi, pasangan analog</dd></div>
+          <div><dt>Kepadatan</dt><dd>Tinggi</dd></div>
+        </dl>
+        <p class="risk">Risiko: kitsch; tanpa grid modern akan terasa template lama.</p>
+      </div>
+    </article>
+
+    <!-- 05 ADAT -->
+    <article class="card t-adat">
+      <div class="preview frame-host">
+        <div class="frame"></div>
+        <p class="p-eyebrow">The Wedding Of</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">05</span><h3>Adat / Traditional</h3></div>
+        <p class="desc">Sakral, megah, penuh makna keluarga. Motif harus akurat — bukan sekadar "batik-ish".</p>
+        <div class="swatches">
+          <span class="sw" style="background:#3a1218" data-hex="3A1218"></span>
+          <span class="sw" style="background:#c9a227" data-hex="C9A227"></span>
+          <span class="sw light" style="background:#f3e2c0" data-hex="F3E2C0"></span>
+          <span class="sw" style="background:#6e2b2b" data-hex="6E2B2B"></span>
+          <span class="sw" style="background:#1f3a2e" data-hex="1F3A2E"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Playfair Display</dd></div>
+          <div><dt>Aksen</dt><dd>Mea Culpa</dd></div>
+          <div><dt>Gerak</dt><dd>Tirai membuka, reveal khidmat</dd></div>
+          <div><dt>Audio</dt><dd>Gamelan / tradisional</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Prosesi adat, keluarga besar</dd></div>
+          <div><dt>Kepadatan</dt><dd>Tinggi</dd></div>
+        </dl>
+        <p class="risk">Risiko: motif salah = fatal secara sosial. Wajib libatkan keluarga.</p>
+      </div>
+    </article>
+
+    <!-- 06 GAME -->
+    <article class="card t-game">
+      <div class="preview">
+        <p class="p-eyebrow">Player 1 &amp; Player 2</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Start</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">06</span><h3>3D Diorama / Game</h3></div>
+        <p class="desc">Dunia mini, paper-craft, playful. Paling kuat untuk pasangan muda dan tema yang berani.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#dff0ea" data-hex="DFF0EA"></span>
+          <span class="sw light" style="background:#f7d8c4" data-hex="F7D8C4"></span>
+          <span class="sw" style="background:#7fb7a8" data-hex="7FB7A8"></span>
+          <span class="sw" style="background:#e2725b" data-hex="E2725B"></span>
+          <span class="sw" style="background:#1e3a34" data-hex="1E3A34"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Fredoka</dd></div>
+          <div><dt>Body</dt><dd>Nunito</dd></div>
+          <div><dt>Gerak</dt><dd>Scroll-driven camera, easter egg</dd></div>
+          <div><dt>Audio</dt><dd>Chiptune / playful</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Gen Z, tema game, acara kasual</dd></div>
+          <div><dt>Kepadatan</dt><dd>Tinggi</dd></div>
+        </dl>
+        <p class="risk">Risiko: WebGL berat, novelty cepat bosan, teks kecil sulit dibaca.</p>
+      </div>
+    </article>
+
+    <!-- 07 CINEMATIC -->
+    <article class="card t-cinematic">
+      <div class="preview frame-host grain">
+        <div class="frame"></div>
+        <p class="p-eyebrow">A Film By</p>
+        <h2 class="p-names">Adinda <span class="amp">&amp;</span> Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Play</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">07</span><h3>Cinematic Motion</h3></div>
+        <p class="desc">Film pendek: title sequence, letterbox, color grade. Paling dramatis, paling berat secara data.</p>
+        <div class="swatches">
+          <span class="sw" style="background:#0e0e10" data-hex="0E0E10"></span>
+          <span class="sw" style="background:#c8a97e" data-hex="C8A97E"></span>
+          <span class="sw light" style="background:#f4f1ea" data-hex="F4F1EA"></span>
+          <span class="sw" style="background:#3a3a3e" data-hex="3A3A3E"></span>
+          <span class="sw" style="background:#6b4b3a" data-hex="6B4B3A"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Archivo</dd></div>
+          <div><dt>Aksen</dt><dd>Cormorant Garamond</dd></div>
+          <div><dt>Gerak</dt><dd>Scroll sequence, masked reveal</dd></div>
+          <div><dt>Audio</dt><dd>Score sinematik</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Pre-wedding video, venue dramatis</dd></div>
+          <div><dt>Kepadatan</dt><dd>Rendah</dd></div>
+        </dl>
+        <p class="risk">Risiko: kuota data, baterai, dan autoplay yang diblokir browser.</p>
+      </div>
+    </article>
+
+    <!-- 08 MAGAZINE -->
+    <article class="card t-magazine">
+      <div class="preview grain">
+        <span class="issue">Issue 01 — 2026</span>
+        <p class="p-eyebrow">The Wedding Issue</p>
+        <h2 class="p-names">Adinda<br>Bima</h2>
+        <p class="p-date">28 · 12 · 2026</p>
+        <p class="p-place">Jakarta</p>
+        <span class="p-cta">Buka Undangan</span>
+      </div>
+      <div class="meta">
+        <div class="meta-head"><span class="num">08</span><h3>Modern Magazine</h3></div>
+        <p class="desc">Editorial fashion: tipografi oversized, grid asimetris, satu aksen jenuh. Berani dan urban.</p>
+        <div class="swatches">
+          <span class="sw light" style="background:#f7f5f2" data-hex="F7F5F2"></span>
+          <span class="sw" style="background:#111111" data-hex="111111"></span>
+          <span class="sw" style="background:#c24b2a" data-hex="#C24B2A"></span>
+          <span class="sw" style="background:#6b6b6b" data-hex="6B6B6B"></span>
+          <span class="sw light" style="background:#e3e0db" data-hex="E3E0DB"></span>
+        </div>
+        <dl class="specs">
+          <div><dt>Display</dt><dd>Anton</dd></div>
+          <div><dt>Body</dt><dd>Source Serif 4</dd></div>
+          <div><dt>Gerak</dt><dd>Hard cut, stagger</dd></div>
+          <div><dt>Audio</dt><dd>Minimal / tanpa musik</dd></div>
+          <div><dt>Cocok untuk</dt><dd>Pasangan kreatif, venue industrial</dd></div>
+          <div><dt>Kepadatan</dt><dd>Sedang</dd></div>
+        </dl>
+        <p class="risk">Risiko: terasa seperti brand deck, bukan pernikahan.</p>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- SECTION FLOW -->
+  <section class="flow" aria-label="Alur section">
+    <h2>Alur section yang bekerja</h2>
+    <p class="sub">Garis penuh = wajib di MVP. Garis putus-putus = opsional, ditambahkan setelah alur inti terbukti. Urutan ini dramaturgi, bukan daftar fitur.</p>
+    <div class="chips">
+      <span class="chip core"><b>00</b> Cover</span>
+      <span class="chip core"><b>01</b> Opening</span>
+      <span class="chip core"><b>02</b> Quote</span>
+      <span class="chip core"><b>03</b> Couple</span>
+      <span class="chip opt"><b>04</b> Story</span>
+      <span class="chip core"><b>05</b> Save the Date</span>
+      <span class="chip core"><b>06</b> Events</span>
+      <span class="chip core"><b>07</b> Location</span>
+      <span class="chip opt"><b>08</b> Gallery</span>
+      <span class="chip core"><b>09</b> RSVP</span>
+      <span class="chip core"><b>10</b> Wishes</span>
+      <span class="chip opt"><b>11</b> Gift</span>
+      <span class="chip opt"><b>12</b> Live</span>
+      <span class="chip opt"><b>13</b> Practical / FAQ</span>
+      <span class="chip core"><b>14</b> Closing</span>
+      <span class="chip core"><b>15</b> Floating UI</span>
+    </div>
+  </section>
+
+  <!-- TONE -->
+  <section class="tone" aria-label="Nada copy">
+    <h2 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:clamp(28px,4vw,42px);margin:0 0 6px;letter-spacing:-.01em;">Satu hari, tiga nada.</h2>
+    <p class="sub" style="color:#6f6a61;font-size:14px;margin:0 0 26px;max-width:60ch;">Konten sama. Yang berubah hanya sudut pandang, panjang kalimat, dan seberapa jauh metafora boleh dibawa.</p>
+    <div class="tone-grid">
+      <div class="tone-card">
+        <span class="tag">Sakral</span>
+        <h3>Klasik Religius</h3>
+        <blockquote>
+          “Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.”
+          <span class="by">— pembuka, formal dan khidmat</span>
+        </blockquote>
+      </div>
+      <div class="tone-card">
+        <span class="tag">Hangat</span>
+        <h3>Modern Minimalis</h3>
+        <blockquote>
+          “Kami menikah. Dan kami ingin merayakannya bersama orang-orang yang kami sayangi.”
+          <span class="by">— pembuka, pendek dan manusiawi</span>
+        </blockquote>
+      </div>
+      <div class="tone-card">
+        <span class="tag">Playful</span>
+        <h3>Cinematic / Game</h3>
+        <blockquote>
+          “Kami memutuskan untuk co-op seumur hidup. Tidak ada tombol undo. Dan kami tidak ingin ada.”
+          <span class="by">— pembuka, metafora maksimal 3–4 kali</span>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bot">
+    <span>Styleboard riset — 18 November 2026</span>
+    <span>Sumber utama: <a href="https://our-wedding.link/" target="_blank" rel="noreferrer">Our Wedding Link</a> · <a href="https://withjoy.com/wedding-website" target="_blank" rel="noreferrer">Joy</a></span>
+  </footer>
+</div>
+</body>
+</html>

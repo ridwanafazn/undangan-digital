@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Demo portofolio. Semua konten adalah fiksi.
