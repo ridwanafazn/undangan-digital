@@ -47,6 +47,7 @@
     opened = true;
 
     gate.classList.add("is-open");
+    gate.setAttribute("aria-hidden", "true");
     document.body.classList.remove("is-locked");
     content.setAttribute("aria-hidden", "false");
     musicBtn.hidden = false;
